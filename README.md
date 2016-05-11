@@ -13,4 +13,6 @@ The main functions of the scripts are listed below:
 
   4. Collecting popular online tools in one place, such as PSIPRED
 
+Please find **Mybiotools show.ipynb** to explore how Mybiotolls work.
+
 You are welcome to throw any comments or suggestion here. 
