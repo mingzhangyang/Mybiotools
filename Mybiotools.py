@@ -10,6 +10,8 @@ import matplotlib.pyplot as plt
 import urllib
 import requests
 import sys
+import os
+import os.path
 
 #instructions
 #1. html5lib is required for pandas to read table from html.
@@ -80,14 +82,60 @@ def primers(s, length = 21, f_addon = '', r_addon = ''):
 def read_fasta(path):#read a local fasta file downloaded from NCBI
     with open(path) as foo:
         return ''.join([item.strip() for item in foo.readlines()[1:]])
+    
+
+def list_files(dir_name, type=None, *args):
+    '''
+    This function is used to list all the files in the requested dir. One can also get specific file types
+    by defining the type parameter.
+    The type can a string or a collection of strings that declearing file types.
+    e.g. type = '.py', type = ['.txt', '.csv', '.data']
+    '''
+    if type is None:
+        return [path for path in os.listdir(dir_name) if os.path.isfile(path)]
+    return [path for path in os.listdir(dir_name) if os.path.isfile(path) and os.path.splitext(path)[1] == type]
+    
+def join_sequecning_fragments(file_list):
+    '''
+    When you send your PCR products or plasmid for sequencing, you probably get several .seq files back. 
+    Usually, one need to align these fragments with your reference sequence individually.
+    join_sequencing_fragments function provide you an easy way to get things done.
+    Prerequisits:
+    1. change working directory to the folder that contains the sequencing results
+    2. make a file list using the list_files function with type parameter set as '.seq'
+    For proper use of this function, please make sure your sequencing results are aranged in order. 
+    In other words, up stream fragments should be prior to down stream fragments.
+    '''
+    seqs = []
+    for each_file in file_list:
+        with open(each_file) as foo:
+            seq = foo.read().replace('\n', '')[100:]
+            first_N = seq.find('N')
+            if first_N <= 800:
+                seq = seq[:first_N]
+            else:
+                seq = seq[:800]
+            seqs.append(seq)
+                
+    joined_seq = seqs[0]
+    
+    for i in range(len(seqs)-1):
+        idx = seqs[i+1].find(seqs[i][-20:])
+        if idx == -1:
+            return 'Something wrong between %d and %d seq. Make sure your .seq files are in order.'%(i, i+1)
+        addon = seqs[i+1][idx+20:]
+        joined_seq += addon
         
+    return joined_seq
+    
 
 def help_info():
     print(
         '''
-        clean_seq input_seq: remove white space or numbers in the input gene or protein sequence.
-        reverse_complementory input_seq: get the reversed complementory sequence of the input DNA sequence
-        GC_content input_seq: calculate the GC content of the input sequence
+        *clean_seq(input_seq)*: remove white space or numbers in the input gene or protein sequence.
+        *reverse_complementory(input_seq)*: get the reversed complementory sequence of the input DNA sequence.
+        *GC_content(input_seq)*: calculate the GC content of the input sequence.
+        
         --help or -h: get help info of Mybiotools
     ''')
         
