@@ -84,16 +84,19 @@ def read_fasta(path):#read a local fasta file downloaded from NCBI
         return ''.join([item.strip() for item in foo.readlines()[1:]])
     
 
-def list_files(dir_name, type=None, *args):
+def list_files(dir_name, Type=None, *args):
     '''
     This function is used to list all the files in the requested dir. One can also get specific file types
-    by defining the type parameter.
-    The type can a string or a collection of strings that declearing file types.
-    e.g. type = '.py', type = ['.txt', '.csv', '.data']
+    by defining the Type parameter.
+    The Type parameter can a string or a list of strings that declearing file types.
+    e.g. Type = '.py', Type = ['.txt', '.csv', '.data']
     '''
-    if type is None:
+    if Type is None:
         return [path for path in os.listdir(dir_name) if os.path.isfile(path)]
-    return [path for path in os.listdir(dir_name) if os.path.isfile(path) and os.path.splitext(path)[1] == type]
+    elif isinstance(Type, (list, tuple, set)):
+        return [path for path in os.listdir(dir_name) if os.path.isfile(path) and os.path.splitext(path)[1] in Type]
+        
+    return [path for path in os.listdir(dir_name) if os.path.isfile(path) and os.path.splitext(path)[1] == Type]
     
 def join_sequecning_fragments(file_list):
     '''
