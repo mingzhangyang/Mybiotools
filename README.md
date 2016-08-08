@@ -1,7 +1,7 @@
 # Mybiotools
 Python scripts for biologists
 
-*This is a project for personal use at the very begining. It is not a programme for covering every pieces of biology. The main purpose is just to make my routine work a bit easier and more streamlined. If you are looking for a advanced python scripts suit for biology, please give BioPython a shot.*
+*This is a project for personal use at the very begining. It is not a program covering every piece of biology. The main purpose is just to make my routine work a bit easier and more streamlined. If you are looking for a advanced python scripts suit for biology, please give BioPython a shot.*
 
 The main functionalities of the scripts are listed below:
 
