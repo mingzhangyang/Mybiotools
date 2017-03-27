@@ -1,6 +1,12 @@
 # Mybiotools
 Python scripts for biologists
 
+## Update:
+### This project is currently suspended due to the fact that I found web is a more acceptable platform for the purpose. To this end, I am moving to a new project built on JavaScript, HTML, and CSS. Please follow the link below to learn more.
+
+### ---> [BiologyMeetWeb](https://mingzhangyang.github.io/biologymeetweb/)
+
+
 *This is a project for personal use at the very begining. It is not a program covering every piece of biology. The main purpose is just to make my routine work a bit easier and more streamlined. If you are looking for a advanced python scripts suit for biology, please give BioPython a shot.*
 
 The main functionalities of the scripts are listed below:
