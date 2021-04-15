@@ -47,7 +47,7 @@ def reverse_complementory(s):
     Return the reversed complementory sequence.
     '''
     try:
-        return ''.join([complementory_dict[base] for base in list(s.upper())])[::-1]
+        return ''.join(complementory_dict[base] for base in list(s.upper()))[::-1]
     except KeyError:
         print('Only "ATGCatgc" are accepted. Please check your sequence.')
         
@@ -67,7 +67,7 @@ def primers(s, length = 21, f_addon = '', r_addon = ''):
     '''
     s = s.upper()
     for base in s:
-        if not base in ['A', 'T', 'G', 'C']:
+        if base not in ['A', 'T', 'G', 'C']:
             break
         return 'Illegal character found. Please check your sequence.'
     result = [[],[],[]]
@@ -81,7 +81,7 @@ def primers(s, length = 21, f_addon = '', r_addon = ''):
 
 def read_fasta(path):#read a local fasta file downloaded from NCBI
     with open(path) as foo:
-        return ''.join([item.strip() for item in foo.readlines()[1:]])
+        return ''.join(item.strip() for item in foo.readlines()[1:])
     
 
 def list_files(dir_name, Type=None, *args):
@@ -114,21 +114,18 @@ def join_sequecning_fragments(file_list):
         with open(each_file) as foo:
             seq = foo.read().replace('\n', '')[100:]
             first_N = seq.find('N')
-            if first_N <= 800:
-                seq = seq[:first_N]
-            else:
-                seq = seq[:800]
+            seq = seq[:first_N] if first_N <= 800 else seq[:800]
             seqs.append(seq)
-                
+
     joined_seq = seqs[0]
-    
+
     for i in range(len(seqs)-1):
         idx = seqs[i+1].find(seqs[i][-20:])
         if idx == -1:
             return 'Something wrong between %d and %d seq. Make sure your .seq files are in order.'%(i, i+1)
         addon = seqs[i+1][idx+20:]
         joined_seq += addon
-        
+
     return joined_seq
     
 
